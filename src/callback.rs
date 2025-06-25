@@ -206,7 +206,7 @@ pub(crate) extern "C" fn callback_wrapper(
             Ok(w) => w,
             #[allow(unused_variables)]
             Err(e @ Error::NotYetSupported(_)) => {
-                // eprintln!("{}", e);
+                eprintln!("{}", e);
                 return Ok(());
             }
             Err(_) => unreachable!(),
@@ -477,6 +477,24 @@ impl<'a> BarrierCtx<'a> {
     impl_getter! { compl_viol, f64, BARRIER, BARRIER_COMPL, "Complementarity violation for current barrier iterate." }
 }
 
+/// Callback context object during [`MULTIOBJ`](https://www.gurobi.com/documentation/9.1/refman/cb_codes.html).
+pub struct MultiObjCtx<'a>(CbCtx<'a>);
+impl<'a> MultiObjCtx<'a> {
+    impl_common! {}
+    impl_runtime! {}
+    impl_getter! { obj_cnt, i32, MULTIOBJ, MULTIOBJ_OBJCNT, "Objective count optimized so far." }
+    impl_getter! { sol_cnt, f64, MULTIOBJ, MULTIOBJ_SOLCNT, "Solutions found so far." }
+    impl_getter! { sol, f64, MULTIOBJ, MULTIOBJ_SOL, "Feasible solution (a vector)." }
+    impl_getter! { iter_cnt, i32, MULTIOBJ, MULTIOBJ_ITRCNT, "Iteration count of last single objective solve." }
+    impl_getter! { obj_bst, i32, MULTIOBJ, MULTIOBJ_OBJBST, "Objective value of best solution of last objective solve." }
+    impl_getter! { obj_bnd, i32, MULTIOBJ, MULTIOBJ_OBJBND, "Dual bound of last objective solve." }
+    impl_getter! { status, i32, MULTIOBJ, MULTIOBJ_STATUS, "Status of last objective solve." }
+    impl_getter! { mip_gap, i32, MULTIOBJ, MULTIOBJ_MIPGAP, "MIP gap of last single objective solve." }
+    impl_getter! { nod_cnt, i32, MULTIOBJ, MULTIOBJ_NODCNT, "Node count of last objective solve." }
+    impl_getter! { nod_lft, i32, MULTIOBJ, MULTIOBJ_NODLFT, "Open node count of last objective solve." }
+    impl_getter! { work, i32, MULTIOBJ, MULTIOBJ_WORK, "Work of last objective solve" }
+}
+
 fn negative_int_to_none(val: i32) -> Option<u32> {
     if val < 0 {
         None
@@ -517,6 +535,7 @@ pub enum Where<'a> {
     MIPNode(MIPNodeCtx<'a>),
     Message(MessageCtx<'a>),
     Barrier(BarrierCtx<'a>),
+    MultiObj(BarrierCtx<'a>),
     IIS(IISCtx<'a>),
 }
 
@@ -532,6 +551,7 @@ impl Where<'_> {
             MIPSOL => Where::MIPSol(MIPSolCtx(ctx)),
             MESSAGE => Where::Message(MessageCtx(ctx)),
             BARRIER => Where::Barrier(BarrierCtx(ctx)),
+            MULTIOBJ => Where::Barrier(BarrierCtx(ctx)),
             IIS => Where::IIS(IISCtx(ctx)),
             _ => {
                 return Err(Error::NotYetSupported(format!("WHERE = {}", ctx.where_raw)));

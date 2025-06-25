@@ -19,7 +19,6 @@ pub mod callback {
     pub const MIPNODE: i32 = 5;
     pub const MESSAGE: i32 = 6;
     pub const BARRIER: i32 = 7;
-    #[allow(dead_code)]
     pub const MULTIOBJ: i32 = 8;
     pub const IIS: i32 = 9;
 
@@ -75,12 +74,17 @@ pub mod callback {
     pub const BARRIER_DUALINF: i32 = 7005;
     pub const BARRIER_COMPL: i32 = 7006;
 
-    #[allow(dead_code)]
     pub const MULTIOBJ_OBJCNT: i32 = 8001;
-    #[allow(dead_code)]
     pub const MULTIOBJ_SOLCNT: i32 = 8002;
-    #[allow(dead_code)]
     pub const MULTIOBJ_SOL: i32 = 8003;
+    pub const MULTIOBJ_ITRCNT: i32 = 8004;
+    pub const MULTIOBJ_OBJBST: i32 = 8005;
+    pub const MULTIOBJ_OBJBND: i32 = 8006;
+    pub const MULTIOBJ_STATUS: i32 = 8007;
+    pub const MULTIOBJ_MIPGAP: i32 = 8008;
+    pub const MULTIOBJ_NODCNT: i32 = 8009;
+    pub const MULTIOBJ_NODLFT: i32 = 8010;
+    pub const MULTIOBJ_WORK: i32 = 8012;
 
     pub const IIS_CONSTRMIN: i32 = 9001;
     pub const IIS_CONSTRMAX: i32 = 9002;
