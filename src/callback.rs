@@ -535,7 +535,7 @@ pub enum Where<'a> {
     MIPNode(MIPNodeCtx<'a>),
     Message(MessageCtx<'a>),
     Barrier(BarrierCtx<'a>),
-    MultiObj(BarrierCtx<'a>),
+    MultiObj(MultiObjCtx<'a>),
     IIS(IISCtx<'a>),
 }
 
@@ -551,7 +551,7 @@ impl Where<'_> {
             MIPSOL => Where::MIPSol(MIPSolCtx(ctx)),
             MESSAGE => Where::Message(MessageCtx(ctx)),
             BARRIER => Where::Barrier(BarrierCtx(ctx)),
-            MULTIOBJ => Where::Barrier(MultiObjCtx(ctx)),
+            MULTIOBJ => Where::MultiObj(MultiObjCtx(ctx)),
             IIS => Where::IIS(IISCtx(ctx)),
             _ => {
                 return Err(Error::NotYetSupported(format!("WHERE = {}", ctx.where_raw)));
