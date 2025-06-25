@@ -15,7 +15,7 @@ readme = "README.md"
 exclude = ["/tests"]
 
 [features]
-default = []
+default = ["gurobi12"]
 gurobi12 = ["grb-sys_12"]
 gurobi11 = ["grb-sys_10"]
 gurobi10 = ["grb-sys_10"]
