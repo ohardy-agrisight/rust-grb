@@ -239,14 +239,18 @@ pub enum Status {
     /// User specified an objective limit (a bound on either the best objective or the best bound), and that
     /// limit has been reached.
     UserObjLimit,
+    /// Optimization terminated because the work expended exceeded the value specified in the WorkLimit parameter.
+    WorkLimit,
+    /// Optimization terminated because the total amount of allocated memory exceeded the value specified in the SoftMemLimit parameter.
+    MemLimit,
 }
 
 impl TryFrom<i32> for Status {
     type Error = String;
     fn try_from(val: i32) -> std::result::Result<Status, String> {
         match val {
-            1..=15 => Ok(unsafe { std::mem::transmute::<i32, Status>(val) }),
-            _ => Err("Invalid Status value, should be in [1,15]".to_string()),
+            1..=17 => Ok(unsafe { std::mem::transmute::<i32, Status>(val) }),
+            _ => Err("Invalid Status value, should be in [1,17]".to_string()),
         }
     }
 }
